@@ -6,6 +6,9 @@
 #include "memlayout.h"
 #include "mmu.h"
 #include "proc.h"
+#ifdef CS333_P2
+#include "uproc.h"
+#endif
 
 int
 sys_fork(void)
@@ -92,4 +95,78 @@ sys_halt(void){
   outw( 0x604, 0x0 | 0x2000);
   return 0;
 }
+
+#ifdef CS333_P1
+int
+sys_date(void){
+  struct rtcdate *d;
+  if (argptr(0, (void*)&d, sizeof(struct rtcdate)) < 0)
+    return -1;
+  cmostime(d);
+  return 0;
+}
+#endif
+
+#ifdef CS333_P2
+int
+sys_getuid(void)
+{
+  return proc->uid;
+}
+
+
+int
+sys_getgid(void)
+{
+  return proc->gid;
+}
+
+
+int
+sys_getppid(void)
+{
+  if (proc->parent)
+    return proc->parent->pid;
+  return proc->pid;
+}
+
+int
+sys_setuid(void)
+{  
+  int uid;
+  if (argint(0,&uid) < 0)
+    return -1;
+  if (uid < 0 || uid >32767)
+    return -1;
+  proc->uid = uid;
+  return 0;
+}
+
+int
+sys_setgid(void)
+{  
+  int gid;
+  
+  if (argint(0,&gid) < 0)
+      return -1;
+  
+  if (gid < 0 ||  gid > 32767)
+      return -1;
+  proc->gid = gid;
+  return 0;
+}
+
+int 
+sys_getprocs(void)
+{
+  int max;
+  struct uproc * up;
+  
+  if (argint(0,&max) < 0)
+      return -1;
+  if (argptr(1, (void*)&up, sizeof(struct uproc)*max) < 0)
+      return -1;
+  return getprocs_helper(max, up);
+}
+#endif
 

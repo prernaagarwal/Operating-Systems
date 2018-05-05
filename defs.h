@@ -118,7 +118,12 @@ void            userinit(void);
 int             wait(void);
 void            wakeup(void*);
 void            yield(void);
-
+#ifdef CS333_P3P4
+void            readydump();
+void            freedump();
+void            sleepdump();
+void            zombiedump();
+#endif
 // swtch.S
 void            swtch(struct context**, struct context*);
 

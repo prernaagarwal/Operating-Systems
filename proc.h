@@ -66,8 +66,25 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+#ifdef CS333_P1
+  uint start_ticks;
+#endif
+#ifdef CS333_P2
+  uint uid;                    // user id
+  uint gid;                    // group id  
+  uint cpu_ticks_total;        // total elapsed ticks in cpu
+  uint cpu_ticks_in;           // ticks when scheduled
+#endif
+
+#ifdef CS333_P3P4
+  struct proc * next;
+#endif
+
 };
 
+#ifdef CS333_P2
+void print_time(int elapsed_ticks);
+#endif
 // Process memory is laid out contiguously, low addresses first:
 //   text
 //   original data and bss

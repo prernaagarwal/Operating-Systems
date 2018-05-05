@@ -1,5 +1,6 @@
 struct stat;
 struct rtcdate;
+struct uproc;
 
 // system calls
 int fork(void);
@@ -24,7 +25,17 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int halt(void);
-
+#ifdef CS333_P1
+int date(struct rtcdate*);
+#endif
+#ifdef CS333_P2
+uint getuid(void);
+uint getgid(void);
+uint getppid(void);
+int setuid(uint);
+int setgid(uint);  
+int getprocs(uint, struct uproc *);
+#endif
 // ulib.c
 int stat(char*, struct stat*);
 char* strcpy(char*, char*);

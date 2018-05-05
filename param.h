@@ -13,3 +13,7 @@
 // #define FSSIZE       1000  // size of file system in blocks
 #define FSSIZE       2000  // size of file system in blocks  // CS333 requires a larger FS.
 
+#ifdef CS333_P2
+#define UID          0   // initial userid (default value)
+#define GID          0   // initial group id (default value)
+#endif

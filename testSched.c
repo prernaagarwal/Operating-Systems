@@ -16,6 +16,7 @@ countForever(int i)
 
   j = getpid();
   p = i%PrioCount;
+  
   rc = setpriority(j, p);
   if (rc == 0) 
     printf(1, "%d: start prio %d\n", j, p);

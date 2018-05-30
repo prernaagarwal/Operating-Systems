@@ -36,6 +36,14 @@ int setuid(uint);
 int setgid(uint);  
 int getprocs(uint, struct uproc *);
 #endif
+#ifdef CS333_P3P4
+int setpriority(int,int);
+#endif
+#ifdef CS333_P5
+int chmod(char *, int);
+int chown(char *, int);
+int chgrp(char *, int);
+#endif
 // ulib.c
 int stat(char*, struct stat*);
 char* strcpy(char*, char*);

@@ -39,11 +39,19 @@ main(void)
     exit();
   }
 
+#ifdef CS333_P3P4
+  printf(1, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", "PID", "Name", "UID", "GID","PPID","Prio","Elapsed", "CPU", "State", "Size");
+#else 
   printf(1, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", "PID", "Name", "UID", "GID","PPID","Elapsed", "CPU", "State", "Size");
+#endif 
   for(i = 0;i < num; ++i)
   {
+#ifdef CS333_P3P4
+    printf(1, "%d\t%s\t%d\t%d\t%d\t%d\t", utable[i].pid, utable[i].name, utable[i].uid, utable[i].gid, utable[i].ppid, utable[i].priority);
+#else
     printf(1, "%d\t%s\t%d\t%d\t%d\t", utable[i].pid, utable[i].name, utable[i].uid, utable[i].gid, utable[i].ppid);
-    
+#endif
+
     int elapsed_ticks = utable[i].elapsed_ticks;
   
     display_time(elapsed_ticks);

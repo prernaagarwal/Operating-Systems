@@ -123,6 +123,7 @@ void            readydump();
 void            freedump();
 void            sleepdump();
 void            zombiedump();
+int 		setpriority_helper(int, int);
 #endif
 // swtch.S
 void            swtch(struct context**, struct context*);

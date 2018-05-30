@@ -10,6 +10,10 @@ struct uproc {
   char state[STRMAX];
   uint size;
   char name[STRMAX];
+  #ifdef CS333_P3P4
+  int priority;
+  int budget;
+  #endif
 };
 
 int getprocs_helper(uint max, struct uproc * up);

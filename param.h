@@ -17,3 +17,9 @@
 #define UID          0   // initial userid (default value)
 #define GID          0   // initial group id (default value)
 #endif
+
+#ifdef CS333_P3P4
+#define TICKS_TO_PROMOTE 1000
+#define BUDGET 100
+#define MAXPRIO 7
+#endif

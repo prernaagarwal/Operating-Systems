@@ -42,7 +42,7 @@ union mode_t {
     uint u_w : 1;
     uint u_r : 1;  // user
     uint setuid : 1;
-    uint     : 22  // pad
+    uint     : 22;  // pad
   } flags;
   uint asInt;
 };
@@ -83,3 +83,8 @@ struct dirent {
   char name[DIRSIZ];
 };
 
+#ifdef CS333_P5
+int chmod_helper(char *, int);
+int chown_helper(char *, int);
+int chgrp_helper(char *, int);
+#endif

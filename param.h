@@ -23,3 +23,9 @@
 #define BUDGET 100
 #define MAXPRIO 7
 #endif
+
+#ifdef CS333_P5
+#define DEFAULT_UID          0    //default UID
+#define DEFAULT_GID          0    //default GID
+#define DEFAULT_MODE         00755 //0755 
+#endif

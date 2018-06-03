@@ -3,7 +3,6 @@
 // Mostly argument checking, since we don't trust
 // user code, and calls into file.c and fs.c.
 //
-
 #include "types.h"
 #include "defs.h"
 #include "param.h"
@@ -262,6 +261,11 @@ create(char *path, short type, short major, short minor)
   ip->major = major;
   ip->minor = minor;
   ip->nlink = 1;
+  #ifdef CS333_P5
+  ip->uid = DEFAULT_UID;
+  ip->gid = DEFAULT_GID;
+  ip->mode.asInt = DEFAULT_MODE;
+  #endif
   iupdate(ip);
 
   if(type == T_DIR){  // Create . and .. entries.
@@ -440,3 +444,55 @@ sys_pipe(void)
   fd[1] = fd1;
   return 0;
 }
+
+#ifdef CS333_P5
+
+int
+sys_chmod(void)
+{
+  char * pathname;
+  int mode;
+  
+  if (argint(1,&mode) < 0)
+    return -1;
+  if (argstr(0,&pathname) < 0)
+    return -1;
+  if (mode < 0 || mode > 01777)
+    return -1;
+  
+  return chmod_helper(pathname, mode);
+}
+
+int 
+sys_chown(void)
+{
+  char * pathname;
+  int owner;
+
+  if(argstr(0,&pathname) < 0)
+    return -1;
+  if (argint(1, &owner) < 0)
+    return -1;
+  if (owner < 0 || owner > 32767)
+    return -1;
+
+  return chown_helper(pathname, owner);
+}
+
+int 
+sys_chgrp(void)
+{
+  char * pathname;
+  int group;
+
+  if(argstr(0,&pathname) < 0)
+    return -1;
+  if (argint(1, &group) < 0)
+    return -1;
+  if (group < 0 || group >32767)
+    return -1;
+
+  return chgrp_helper(pathname, group);
+}
+
+#endif

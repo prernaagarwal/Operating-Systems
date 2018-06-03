@@ -7,6 +7,10 @@
 #include "x86.h"
 #include "elf.h"
 
+#ifdef CS333_P5
+#include "stat.h"
+#endif
+
 int
 exec(char *path, char **argv)
 {
@@ -25,6 +29,39 @@ exec(char *path, char **argv)
   }
   ilock(ip);
   pgdir = 0;
+
+
+#ifdef CS333_P5
+  int perm = 0;     //permission
+  struct stat ns;   //new stat
+  stati(ip, &ns);
+
+  if (proc->uid == ns.uid)
+  {
+    if (ns.mode.flags.u_x)
+      perm = 1;
+    else
+      goto bad;
+  }
+  
+  if (proc->gid == ns.gid)
+  {
+    if (ns.mode.flags.g_x)
+      perm = 1;
+    else
+      goto bad;
+  }
+  
+  if (ns.mode.flags.o_x)
+    perm  = 1;
+
+  if (perm == 0)
+    goto bad;
+  
+  if (ns.mode.flags.setuid)
+    proc->uid = ns.uid;
+
+#endif
 
   // Check ELF header
   if(readi(ip, (char*)&elf, 0, sizeof(elf)) < sizeof(elf))
@@ -85,6 +122,7 @@ exec(char *path, char **argv)
     if(*s == '/')
       last = s+1;
   safestrcpy(proc->name, last, sizeof(proc->name));
+
 
   // Commit to the user image.
   oldpgdir = proc->pgdir;
